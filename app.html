@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The English Log - App</title>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    let vocab = JSON.parse(localStorage.getItem("vocab")) || [];
+
+    function renderWords() {
+      const list = document.getElementById("vocab-list");
+      list.innerHTML = "";
+      vocab.forEach((item, i) => {
+        list.innerHTML += `
+          <div class="card">
+            <strong>${item.word}</strong> - ${item.meaning}
+          </div>`;
+      });
+    }
+
+    function addWord() {
+      const word = document.getElementById("word").value.trim();
+      const meaning = document.getElementById("meaning").value.trim();
+      if(word && meaning) {
+        vocab.push({word, meaning});
+        localStorage.setItem("vocab", JSON.stringify(vocab));
+        document.getElementById("word").value = "";
+        document.getElementById("meaning").value = "";
+        renderWords();
+      }
+    }
+
+    window.onload = renderWords;
+  </script>
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="The English Log Logo">
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="app.html">App</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h2>Vocabulary Builder</h2>
+    <p>Add new words to your personal log:</p>
+
+    <input type="text" id="word" placeholder="Word">
+    <input type="text" id="meaning" placeholder="Meaning">
+    <button onclick="addWord()" class="btn">Add Word</button>
+
+    <h3>Your Vocabulary</h3>
+    <div id="vocab-list"></div>
+  </div>
+
+  <footer>
+    <p>© 2025 The English Log. All rights reserved.</p>
+  </footer>
+</body>
+</html> 
